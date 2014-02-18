@@ -1,0 +1,134 @@
+---
+layout: post
+title: "Coding your workstation with Babushka"
+permalink: /issue08/babushka
+byline: Sam Gibson
+category: issue08
+authors:
+    - name: Sam Gibson
+      twitter: capnkrump
+      avatar: sam-avatar.jpg
+---
+
+## Your Workstation Sucks
+No, seriously, it does. Worse, it's your fault. You can't name half the apps that you have installed through <span class='inline-code'>apt-get, homebrew, port,<span> whatever.
+
+If it was dropped in a vat of alien-larva-that-consume-electronics-and-also-souls right now, could you restore it tomorrow? In a week? Do you even know?
+
+You preach repeatability and automation. You spend time configuring vagrant/docker for your projects. You *don't* treat your workstations with the same care.
+
+The usual suspects — Chef, Puppet, et. al. — are too complicated. They focus on managing thousands of servers, huge developer ecosystems, dozens of incompatible versions. Besides: they're far too popular to be cool anymore.
+
+Enter Babushka.
+
+This article will walk through configuring a workstation with Babushka. It will take about 20 minutes from start to finish.
+
+## The Beginning
+Before starting anything, Babushka has to be installed.
+
+<script src="https://gist.github.com/caek/8812117.js"></script>
+
+## The Project
+Create a project.
+
+<script src="https://gist.github.com/caek/8812125.js"></script>
+
+## Describing It
+Babushka projects define an acyclic dependency graph.
+
+For example, I might require that the <span class='inline-code'>zsh</span> is installed, which would itself require <span class='inline-code'>homebrew, gcc,</span> and <span class='inline-code'>autoconf</span>. When I ask Babushka to meet the zsh dependency, it would ensure that all of its dependencies are also met.
+
+Dependencies are defined using a simple DSL, and are read from any ruby file.
+
+## Packaged Apps
+
+The easiest dependencies to describe are all the apps under package management that are currently installed. If you're on OSX and already using homebrew, you can see all of your installed apps by running <span class='inline-code'>brew list:</span>
+
+<script src="https://gist.github.com/caek/8812144.js"></script>
+
+Babushka knows how to install apps using whatever package manager a platform provides, so the dependencies are simple. Create a file for all of these packaged apps and call it <span class='inline-code'>apps.rb</span>. Inside define a dependency for packaged apps. The app dependency name must end in <span class='inline-code'>.bin</span>, e.g.
+
+<script src="https://gist.github.com/caek/8812151.js"></script>
+
+Now, ask Babushka to meet the <span class='inline-code'>all-packaged-apps dependency</span>, and view the output. If the dependency was met successfully, the dependency will be green, otherwise it will be red with an error message of some sort.
+
+<script src="https://gist.github.com/caek/8812174.js"></script>
+
+(Babushka looks for dependency definitions in several places, including in the directory <span class='inline-code'>~/.babushka/deps</span>)
+
+## OS X Apps
+
+Not all apps are packaged apps. Specifically Chromium, Firefox, Alfred, iTerm2, etc. are distributed as <span class='inline-code'>.dmg</span> files. Babushka knows how to install these too.
+
+Create a file called <span class='inline-code'>osx.rb</span> where all of the dependencies specific to Mac OS X will go.
+
+<script src="https://gist.github.com/caek/8812196.js"></script>
+
+There's some magic going on here.
+
+First: The dependency must be named the same at the app that it provides. The iTerm.app dependency will only be met if an application called 'iTerm.app' exists in <span class='inline-code'>/Applications</span> or <span class='inline-code'>~/Applications</span>.
+
+Second: If 'iTerm.app' doesn't exist, then the <span class='inline-code'>source</span> URL must link to a zip file that contains an application bundle by that name, a <span class='inline-code'>.dmg</span> disk image that contains a bundle by that name, or a <span class='inline-code'>.pkg</span> installer that install a bundle by that name.
+
+Make sure it's working by running babushka.
+
+<script src="https://gist.github.com/caek/8812221.js"></script>
+
+## OS X Settings
+
+Aside from apps, there are system settings: Dock magnification, full disk encryption, keyboard shortcuts, etc.
+
+In <span class='inline-code'>osx.rb</span> dependencies can be defined for these settings. On OS X these settings are stored in plists and can be read or written using the <span class='inline-code'>defaults</span> command.
+
+<script src="https://gist.github.com/caek/8812257.js"></script>
+
+Because Babushka doesn't know how to "move the dock to the right", it has to be manually implemented. Each dependency has two methods <span class='inline-code'>met?</span> and <span class='inline-code'>meet</span>.
+
+<span class='inline-code'>met?</span> is evaluated for truthiness (<span class='inline-code'>truthy</span> meaning "this dependency is already met" and <span class='inline-code'>falsey</span> meaning "this dependency is not yet met"). It is run every time a dependency is required.
+
+<span class='inline-code'>meet</span> is what performs the action to install a dependency if the dependency isn't already <span class='inline-code'>met?</span>. Let’s look at the case of auto hiding the dock.
+
+For example: If the dock is already set to hidden — i.e. the shell command <span class='inline-code'>defaults read com.apple.dock autohide</span> returns 0 and outputs the value "1" to stdout — then the dependency is already met. If it's not already hidden, then write setting and restart the dock.
+
+<span class='inline-code'>meet</span> blocks should be idempotent by convention. Care should be taken so that running Babushka multiple times doesn't have unintended side effects.
+
+And of course, the results can be seen again by running the settings dependency.
+
+<script src="https://gist.github.com/caek/8813432.js"></script>
+
+(There're a lot of OS X settings that can be set through the defaults command. A good resource for discovering them is secrets.blacktree.com)
+
+## Bringing it All Together
+At this point the project has several different dependencies that describe various aspects of a workstation (settings, packaged apps, and GUI apps) that each can be run independently.
+
+To ease configuration, create a root dependency for every machine that you want to manage with Babushka. A simple informal convention is to name this dependency the same as the hostname of the machine.
+For example, if a machine is named <span class='inline-code'>cape-town</span>, create a file called <span class='inline-code'>cape_town.rb</span> and add a single dependency.
+
+<script src="https://gist.github.com/caek/8813454.js"></script>
+
+Configuring the machine is now as simple as:
+
+<span class='inline-code'>$ babushka cape-town</span>
+
+When there are multiple workstations, simple add another hostname dependency. Another machine might share many of the same dependencies, but look like:
+
+<script src="https://gist.github.com/caek/8813469.js"></script>
+
+## GitHub Integration
+Pretty neat! There's now a repo that describes a set of common workstation dependencies, and it can be run on any current install to bring it up-to-date.
+
+But... after re-installing OS X where will Babushka find the dependency project? And where will it get base dependencies like <span class='inline-code'>git</span> or <span class='inline-code'>gcc</span> without manual effort to install them.
+
+Babushka integrates with GitHub so configuring a machine after a fresh install is as easy as creating a repo on any GitHub account called <span class='inline-code'>babushka-deps</span> and pushing changes there.
+
+<script src="https://gist.github.com/caek/8813501.js"></script>
+
+For example, if the GitHub user samfoo has a <span class='inline-code'>babushka-deps project</span>, running <span class='inline-code'>babushka samfoo:cape-town</span> will clone samfoo's project to <span class='inline-code'>~/.babushka/sources/samfoo</span> and try to meet the <span class='inline-code'>cape-town</span> dependency (which configures everything) therein.
+
+## Looking Forward
+Managing a workstation with Babushka is simple after understanding the conventions. Chef Solo and Puppet (and, of course others) can used for managing personal machine configurations, but are too unwieldy for simple tasks and require lots more configuration and domain knowledge.
+
+Because Babushka is so simple, there's no reason why a team couldn't publish a <span class='inline-code'>babushka-deps</span> repo to their GitHub account that contains all the dependencies necessary for getting new devs up and running. For example, it could install vagrant and clone the project repo. Getting new developers setup is limited, then, only by download speed.
+
+
+

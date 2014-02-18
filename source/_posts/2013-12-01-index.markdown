@@ -4,6 +4,7 @@ title: A Word From The Editors
 modelDate: Issue 07, November 2013
 permalink: /issue07/index
 lastIssue: /p2/issue06/index/
+nextIssue: /p2/issue08/index/
 cover: issue_7_cover.jpg
 issue: "07"
 key: issue07
