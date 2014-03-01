@@ -9,7 +9,7 @@ issue: "09"
 key: issue09
 category: index
 ---
-Dan says hello & Welcome to the first P2 for 2014. This is the eighth issue we've published of the P2 Magazine and the first without the watchful eye of Ryan Boucher at the helm. We have two new elves joining us from across the globe to help us gather stories near you, Rouan Wilsenach in South Africa and Karan Misra in India. 
+Welcome to the first P2 for 2014. This is the eighth issue we've published of the P2 Magazine and the first without the watchful eye of Ryan Boucher at the helm. We have two new elves joining us from across the globe to help us gather stories near you, Rouan Wilsenach in South Africa and Karan Misra in India. 
 
 We would love to get more input, so if you would like to contribute send an email to p2@thoughtworks.com. 
 
