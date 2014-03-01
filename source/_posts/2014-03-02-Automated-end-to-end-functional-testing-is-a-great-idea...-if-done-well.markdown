@@ -2,7 +2,7 @@
 layout: post
 title: Automated end to end functional testing is a great idea... if done well
 subtitle: 
-permalink: /issue09/2014-03-02-Automated-end-to-end-functional-testing-is-a-great-idea...-if-done-well.markdown
+permalink: /issue09/Automated-end-to-end
 byline: Chirag Doshi
 category: issue09
 authors:
