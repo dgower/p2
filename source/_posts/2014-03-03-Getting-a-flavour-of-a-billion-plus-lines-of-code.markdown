@@ -2,7 +2,7 @@
 layout: post
 title: Getting a flavour of a billion plus lines of code
 subtitle: 
-permalink: /issue0/getting-a-flavour
+permalink: /issue09/getting-a-flavour
 byline: Dan Abel
 category: issue09
 authors:
