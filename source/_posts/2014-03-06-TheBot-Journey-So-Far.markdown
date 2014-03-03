@@ -1,6 +1,6 @@
 ---
 layout: post
-title: TheBot : Journey So Far
+title: “TheBot : Journey So Far”
 subtitle: 
 permalink: /issue09/thebot-so-far
 byline: Karan Misra
