@@ -3,11 +3,12 @@ layout: post
 title: TheBot : Two months early and 300K under budget
 subtitle: 
 permalink: /issue09/two-months-early
-byline: 
+byline: Dave Elliman
 category: issue09
 authors: 
-    - name: by 
-      avatar: 
+    - name: Dave Elliman
+      twitter: 
+      avatar:  
 ---
 
 It was a sunny Thursday afternoon. An intrigued, but slightly dubious Technical Architect, Dan, left our ThoughtWorks presentation.

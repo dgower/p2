@@ -5,8 +5,9 @@ subtitle:
 permalink: /issue09/thebot-so-far
 byline: Karan Misra
 category: issue09
-authors: Karan Misra
-    - name: by 
+authors: 
+    - name: Karan Misra
+      twitter: 
       avatar: 
 ---
 

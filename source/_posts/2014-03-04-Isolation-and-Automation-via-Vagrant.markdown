@@ -5,10 +5,12 @@ subtitle:
 permalink: /issue09/isolation-via-vagrant
 byline: Derek Hammer
 category: issue09
-authors: Derek Hammer
-    - name: by 
+authors: 
+    - name: Derek Hammer
+      twitter: 
       avatar: 
 ---
+
 Anyone who has gone from developing on Unix to Windows can tell you the pain of crossing tech stacks. 
 
 Having disparate tech stacks within an organisation is common. Even on the same team a developer, tester or operations team member can have  disparate machine setups and tool choices. Sometimes it’s down to just personal choice. But what if you need your teams to cross-pollinate? What if you need your team to cross these stacks or merge together? 

@@ -10,6 +10,7 @@ authors:
       twitter: chiragsdoshi
       avatar: chiragsdoshi-avatar.jpg
 ---
+
 I have been on and seen just too many projects where the promise of automated end to end functional tests backfires or at least doesn't pay back enough positive results, Here is my take on why.
 Before (on several projects earlier)
 We used to do the following:

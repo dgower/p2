@@ -10,6 +10,7 @@ authors:
       twitter: 
       avatar: 
 ---
+
 Story
 At a global media company, we needed to summarise the clients current state, and one of my jobs was to get a flavour of code quality. 
 
