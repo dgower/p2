@@ -7,17 +7,18 @@ byline: Karan Misra
 category: issue09
 authors: 
     - name: Karan Misra
-      twitter: 
-      avatar: 
+      twitter: @kid0m4n
+      github: github.com/kidoman
+      avatar: karanmisra-avatar.jpg
 ---
 
 “ Robots that are controlled by node.js.” The idea imprinted on me immediately. 
 
 “A crowd controlled robotic car!" 
 
-A fun product with a tonne of learning potential. However, doing a "follow the blog posts/tutorials" stitch and patch job recommended on the NodeBots site did not excite me one bit. Sure, we’d done in two days, but what would we have learned in the process? 
+A fun product with a tonne of learning potential. However, doing a "follow the blog posts/tutorials" stitch and patch job recommended on the NodeBots site did not excite me one bit. Sure, we’d done it in two days, but what would we have learned in the process? 
 
-Although I have worked extensively on node.js, the language did not interest me much - ambiguous syntax, callbacks, promises, etc. I had been looking for an opportunity do something real in Golang, and building a concurrent open source firmware for such a platform was just the ticket.
+Despite having worked extensively on node.js, the language did not interest me much - ambiguous syntax, callbacks, promises, etc. I had been looking for an opportunity do something real in Golang, and building a concurrent open source firmware for TheBot was just the ticket.
 TheBot is first and foremost an experiment. An experiment aimed at research and learning. An experiment to kickstart a hardware engineering ethos in ThoughtWorks. Birthed as a crowd controlled robotic car that transmits video feed back to the controller; the vision has transformed many times during the development. Can it be the ultimate open source sensing/proximity prototyping platform? Should it be miniaturized and easy to mass produce? Could we extract a product out of this?
 
 >> “TheBot’s value is the immense learning and research potential.”
@@ -33,47 +34,30 @@ We plan on doing a proper video walk through of the hardware soon, but until the
 
 Why Golang ?
 
-Golang has excellent and remarkable support for concurrency in the core language. The RaspberryPi is not capable of running two threads of code in parallel. So we needed the car firmware to handle multiple real world interactions at the same time. Modelling this using threads would have forced us to use mutexes, etc, for synchronization. The ‘goroutines+channels' architecture in Golang helped us focus on the "actual" interactions (Goroutines are light weight threads which are executed via the Go runtime on real threads via a M:N mapping. Channels are a typed conduit for passing messages between goroutines). The resulting code is much easier to read, reason with and understand.
+Golang has excellent and remarkable support for concurrency in the core language. The RaspberryPi is single threaded and we needed the car to handle multiple real world interactions at the same time. Using threads would have forced us to use mutexes, etc, for synchronization. The ‘goroutines+channels' architecture in Golang helped us focus on the "actual" interactions (Goroutines are light weight threads which are executed via the Go runtime on real threads via a M:N mapping. Channels are a typed mechanism for passing messages between goroutines). The resulting code is much easier to read, reason with and understand.
 
 >> “Simply running the binary was always enough. This helped tremendously in shortening our development/build/deploy cycles and made the process even more gratifying.”
 
-Golang is a statically typed, garbage collected and compiled programming language. However, in use, it feels like a FAST (slightly) verbose scripting language which has support for systems programming  and duck typing. It also has excellent support for cross compilation. Since the produced binary was entirely self contained and statically linked, no runtime was necessary on the RaspberryPi. Simply running the binary was enough, which helped tremendously in shortening our development, build and deploy cycles and made the process even more fun.
+Golang is a statically typed, garbage collected and compiled programming language. However, in use, it feels like a FAST (slightly) verbose scripting language which has support for systems programming  and duck typing. Since the cross compiled binary was entirely self contained, no runtime was needed. Simply running the binary was enough, which helped tremendously in shortening our development, build and deploy cycles and made the process even more gratifying.
 Why RaspberryPi ?
 
-The RaspberryPi represents the lowest common denominator when it comes to platforms that are available to everyone. It contains a decent SoC (single core 700 Mhz ARM11) and runs Linux. Besides being an ideal target for a cross compiled Golang binary, it also doesn’t skimp (too much) on the I/O department I2C ✓ GPIO ✓ PWM support ✓. The swappability of the SD cards, the forgiveness of the hardware, USB power, integrated HDMI/Ethernet/USB ports; all these capabilities go a long way in making it a good first choice.
+The RaspberryPi represents the most available lowest common denominator; a ARM chip running Linux. Besides marrying well with cross compiled Golang, it also doesn’t skimp on the I/O department I2C ✓ GPIO ✓ PWM ✓ The forgiving nature of the hardware, integrated HDMI/Ethernet/USB go a long way in making it a good first choice.
 
 That being said, we could deploy the firmware, in its current form, on any Linux based platform that has the ability to talk GPIO/I2C, including:
-BBB
-Cubietruck
-ODROID
-Cotton Candy
-CuBox
-PandaBoard
-Transcend WIFI SD Card (video)
+BeagleBone Black
+PandaBoard, etc.
 
-In the long term then prognosis is a lot better. While Golang already supports a wide gamut of targets, I intend on running it on a raw microcontroller soon.
+Our long term goal is to be able to target raw microcontrollers.
 What does it do ? The Video
-
-For its first public appearance at the Golang Meetup,  we wanted something to quickly showcase what the bot was capable of. I personally think it does a fairly good job:
 
 [embedded video www.youtube.com/watch?v=iMXjkZ4B3EM goes here]
 What next?
 
-We did not necessarily limit ourselves to the current form factor when coming up with these ideas. Although the complete list available below, the best ones are:
-End goals
-Hobbyist / Education
-Extract the components and make them available separately. Explore building a Super 8 kit (combine 8 of the most used sensors in one neat package.)
-Logistics / Delivery
-We see tremendous potential for this in the B2B space as well as in rural health care.
-Home Automation
-The existing solutions are tacky, expensive and lack a cohesive experience. We plan on using ThoughtWorks’ core competency, which is building well crafted custom software solutions, to revolutionize this space by coming up with something even your great grandpa could use.
-New Capabilities
-Gobotics
-Golang robotics + hardware abstraction layer.
-Better Acuity
-Head mounted 3D display (think Oculus Rift) control of TheBot camera(s).
-Route Mapping / Discovery
-Not only should these robots (aerial or otherwise) be capable of efficiently navigating in chaotic environments, they need to account for the ever changing urban landscape. The firmware also needs the ability to react to the environment (think wind, rainfall, etc.)
+The current form factor was an evolutionary step; a convenience which allowed us to get started quickly. 
+
+We definitely want to cater to the hobbyist / education space (possibly in the form of a stripped down, dressed up Super 8 sensor kit, to help people get started quickly) as it has the potential for maximum impact at the grassroots level. At the same time, we want to balance things out by looking at solidly marketable areas like B2B logistics / delivery (it sort of applies to the rural health care space as well) and home automation. The home automation space is particularly exciting as the potential for integration between really smart software and hardware innovation is really high (as aptly demonstrated by the NEST devices.)
+
+To make the above happen, we will need to stretch TheBot’s legs and expand its capabilities. We are in the process of extracting a hardware abstraction framework (called EMBD) which will allow us to target a variety of hosts (RPi, BBB, etc.) from a single code base. This would be particularly helpful because it would allow to quickly prototype solutions using readily available hobby boards, while still retaining the ability to target the final hardware. Besides that, we are also interested in route mapping / visualization, as capability in this area will open a whole bunch of opportunities. 
 
 ⁂
 
@@ -82,9 +66,8 @@ The development process was nothing short of enthralling. We did not have well e
 OK so the technical attractiveness of such an undertaking is obvious, but this there is more to it than that. I believe that a lot of good can be done for the "voiceless" by getting cheap commodity devices into their hands. A simple 2G connected solar powered open hardware device that allows a village like Panchayat, India, to bypass all the middle men and leverage social networking to report grievances to their congress representative. This could bring about a revolution. Which minister worth his salt would want to look bad on Facebook, right? Our hope is that the resulting learnings/framework from TheBot effort can and will make this possible. 
 
 The possibilities are truly endless.
-
 Credits
 
-Contributors in no particular order: Sapto, Rohit, Kunal, Nikesh, Shantanu, Hanu, Gagan, Shaunak, Kashyap, Mukund, Akhil, Vishwas, Mallik, Deepthi, Shaun, Nag, Bala & Sam Newman.
+Contributors in no particular order: Sapto, Rohit, Kunal, Nikesh, Shantanu, Hanu, Gagan, Shaunak, Kashyap, Mukund, Akhil, Vishwas, Mallik, Deepthi, Shaun, Nag, Bala & Sam Newman
 
 
