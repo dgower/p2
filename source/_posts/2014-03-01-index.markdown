@@ -9,13 +9,9 @@ issue: "09"
 key: issue09
 category: index
 ---
-Welcome to the first P2 for 2014. This is the eighth issue we've published of the P2 Magazine and the first without the watchful eye of Ryan Boucher at the helm. We have two new elves joining us from across the globe to help us gather stories near you, Rouan Wilsenach in South Africa and Karan Misra in India. 
+This is not really the kind of blurb one would expect on the home page of p2 but hey…the cats away so this mouse is playin’
 
-We would love to get more input, so if you would like to contribute send an email to p2@thoughtworks.com. 
+I hope holidays are going well Ryan.
 
-This month the Virus and Build Gripes series will take a short hiatus, but they will return with more episodes soon. In the meantime, we hope you enjoy some content from new writers like Mike Vitale who shares his experiences on how to make technical changes at scale in a large organisation or from Sam Gibson on automating your workstation with Babushka. We also have a deep dive on lambdas by the wonderful Neal Ford who will share his thoughts on this.  
+Shall leave this for you to..”fine tune” Rach:)
 
-Thank you for reading and for the great feedback you've given the P2 team. 
-
-
-Rachel Laycock, Editor in Chief
